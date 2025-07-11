@@ -318,15 +318,19 @@ public class CircuitHopProtocol extends ProtobufProtocolHandler<CircuitHopProtoc
                     if(resv.maxBytes > 0){
                       fromRequestor.pushHandler(new InboundTrafficLimitHandler(resv.maxBytes));
                     }
-                    fromRequestor.pushHandler(
-                        new TotalTimeoutHandler(
-                            Duration.of(resv.durationSeconds, ChronoUnit.SECONDS)));
+                    if(resv.durationSeconds > 0){
+                      fromRequestor.pushHandler(
+                              new TotalTimeoutHandler(
+                                      Duration.of(resv.durationSeconds, ChronoUnit.SECONDS)));
+                    }
                     if(resv.maxBytes > 0){
                       toTarget.pushHandler(new InboundTrafficLimitHandler(resv.maxBytes));
                     }
-                    toTarget.pushHandler(
-                        new TotalTimeoutHandler(
-                            Duration.of(resv.durationSeconds, ChronoUnit.SECONDS)));
+                    if(resv.durationSeconds > 0){
+                      toTarget.pushHandler(
+                              new TotalTimeoutHandler(
+                                      Duration.of(resv.durationSeconds, ChronoUnit.SECONDS)));
+                    }
                     fromRequestor.pushHandler(new ProxyHandler(toTarget));
                     toTarget.pushHandler(new ProxyHandler(fromRequestor));
                   } else {
@@ -392,6 +396,12 @@ public class CircuitHopProtocol extends ProtobufProtocolHandler<CircuitHopProtoc
 
   public CircuitHopProtocol(RelayManager manager, CircuitStopProtocol.Binding stop) {
     super(Circuit.HopMessage.getDefaultInstance(), TRAFFIC_LIMIT, TRAFFIC_LIMIT);
+    this.manager = manager;
+    this.stop = stop;
+  }
+
+  public CircuitHopProtocol(RelayManager manager, CircuitStopProtocol.Binding stop, long initiatorTrafficLimit, long responderTrafficLimit) {
+    super(Circuit.HopMessage.getDefaultInstance(), initiatorTrafficLimit, responderTrafficLimit);
     this.manager = manager;
     this.stop = stop;
   }

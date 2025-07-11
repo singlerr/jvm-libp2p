@@ -134,6 +134,10 @@ public class CircuitStopProtocol
     super(Circuit.StopMessage.getDefaultInstance(), TRAFFIC_LIMIT, TRAFFIC_LIMIT);
   }
 
+  public CircuitStopProtocol(long initiatorTrafficLimit, long responderTrafficLimit) {
+    super(Circuit.StopMessage.getDefaultInstance(), initiatorTrafficLimit, responderTrafficLimit);
+  }
+
   public void setTransport(RelayTransport transport) {
     this.transport = transport;
   }
