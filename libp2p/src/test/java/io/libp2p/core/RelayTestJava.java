@@ -21,7 +21,7 @@ public class RelayTestJava {
     CircuitHopProtocol.RelayManager relayManager =
         CircuitHopProtocol.RelayManager.limitTo(priv, us, 5);
     CircuitStopProtocol.Binding stop = new CircuitStopProtocol.Binding(new CircuitStopProtocol());
-    CircuitHopProtocol.Binding hop = new CircuitHopProtocol.Binding(relayManager, stop);
+    CircuitHopProtocol.Binding hop = new CircuitHopProtocol.Binding(relayManager, stop, 2048, 2048);
     b.getProtocols().add(hop);
     b.getProtocols().add(stop);
     b.getTransports()

@@ -37,8 +37,8 @@ public class CircuitHopProtocol extends ProtobufProtocolHandler<CircuitHopProtoc
       this.hop = hop;
     }
 
-    public Binding(RelayManager manager, CircuitStopProtocol.Binding stop) {
-      this(new CircuitHopProtocol(manager, stop));
+    public Binding(RelayManager manager, CircuitStopProtocol.Binding stop, long initiatorTrafficLimit, long responderTrafficLimit) {
+      this(new CircuitHopProtocol(manager, stop, initiatorTrafficLimit, responderTrafficLimit));
     }
 
     @Override
